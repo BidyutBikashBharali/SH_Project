@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+
+{% block page_content %}
+
+
+<!-- Start  Content -->
+<div class="w3-padding-large" style="margin-bottom:128px">
+  
+
+<center>
+ <form method="POST" action="{% url 'Post' %}" >
+
+  {% csrf_token %}
+
+  <div class="control-group after-add-more w3-padding">
+    
+    {{form.title}}        <br>
+    {{form.tag}}          <br> 
+    {{form.url}}          <br>
+    {{form.description}}  <br> 
+    <br><br>
+    <input type="submit" value = "Submit" class="w3-button w3-blue w3-round-large"></input><br><br>
+
+
+  </div>
+
+ </form><br><br>
+ 
+
+ <br>
+</center>
+
+</div>
+<!-- End Page Content -->
+
+
+
+
+{% endblock %}

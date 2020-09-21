@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+
+{% block page_content %}
+
+
+
+<!-- Start Content -->
+<div class="w3-padding-large" style="margin-bottom:128px">
+  
+ <div class="w3-card w3-round-large w3-center w3-padding-32">
+
+
+      <form method="POST" action="{% url 'SignUp' %}">
+         
+         {% csrf_token %}
+        
+          <center>
+            <h3 class="w3-xlarge w3-text-gray"><b>You Must Sign Up First To Use This Platform</b></h3><br>
+
+            <!-- {{form.as_p}} -->
+          
+          {{form.username}} <br>
+          {{form.email}}    <br>            
+          {{form.password1}}<br>
+          {{form.password2}}<br>
+          
+          <p class="w3-tiny"><b><span id='message'></span></b></p><br>
+          
+          <script type="text/javascript">
+          $('#id_password1, #id_password2').on('keyup', function () {
+            if ($('#id_password1').val() == $('#id_password2').val()) {
+              $('#message').html('Password Matching').css('color', 'gray');
+            } else 
+              $('#message').html('Password Not Matching').css('color', 'red');
+          });
+          </script>
+
+
+
+          <input type="submit" value = "Sign Up" class="w3-button w3-blue w3-round-large"></input><br><br>
+
+          </center>
+          
+            
+          <br>
+
+
+      </form>
+
+
+
+
+ </div>
+
+</div>
+<!-- End Page Content -->
+
+
+
+{% endblock %}

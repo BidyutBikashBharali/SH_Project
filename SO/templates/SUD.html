@@ -1,0 +1,59 @@
+{% extends "main.html" %}
+
+{% block page_content %}
+
+
+
+<!-- Start Content -->
+<div class="w3-padding-large" style="margin-bottom:128px">
+  
+ <div class="w3-card w3-round-large w3-center w3-padding-32">
+
+    {% if messages %}
+            <br>
+              <ul class="messages">
+                {% for message in messages %}
+                  <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                {% endfor %}
+              </ul>
+              <br>
+    {% endif %}
+
+
+      <form method="POST" action="{% url 'SUD' %}">
+         
+         {% csrf_token %}
+         
+        
+          <center>
+            <h3 class="w3-xlarge w3-text-gray"><b>Set Your Full Name and Address</b></h3><br>
+
+
+          {{form.fullname}} <br>
+          {{form.address}}  <br>  
+
+          <input type="submit" value = "Sign In" class="w3-button w3-blue w3-round-large"></input><br><br>
+
+          </center>
+          
+            
+          <br>
+
+
+
+      </form>
+
+
+
+
+ </div>
+
+</div>
+<!-- End Page Content -->
+
+
+
+{% endblock %}
+
+
+
