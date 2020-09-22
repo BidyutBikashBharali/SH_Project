@@ -8,8 +8,6 @@ class UserData(models.Model):
 	address = models.CharField(max_length=100, null=False)
 	date_created = models.DateTimeField(auto_now_add=True, null=False)
 
-	
-    
 
 class UserPost(models.Model):
 	title = models.CharField(max_length=200, null=False)
@@ -17,6 +15,7 @@ class UserPost(models.Model):
 	url = models.URLField(max_length = 200, null=True, blank=True)
 	description = models.TextField(null=False)
 	date_created = models.DateTimeField(auto_now_add=True, null=False)
-	user = models.ForeignKey(User, null=True, blank=True, on_delete = models.CASCADE) 
+	color = models.CharField(max_length=20, null=False)
+	user_data = models.ForeignKey(UserData, null=True, blank=True, on_delete = models.CASCADE) 
     
     

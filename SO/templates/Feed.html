@@ -1,0 +1,75 @@
+{% extends "main.html" %}
+
+{% block page_content %}
+
+<!-- Start Content -->
+<div class="w3-padding-large" style="margin-bottom:128px">
+  
+ <div class="w3-card w3-round-large w3-center w3-padding-large">
+
+    
+
+      
+        <center>
+          <br>
+        <form  method="POST" action="{% url 'SF' %}"  style="width:70%;">
+
+          {% csrf_token %}
+ 
+          <input class="w3-input" placeholder="Search" type="text" name="tag" pattern="#.*" required>
+          <p class="w3-text-gray w3-tiny">Search Opportunities with Tag( Must start with '#', eg: #java_developer_job, #WorkFromHome etc ).</p>
+          <button class="w3-button w3-hover-white"><i class='fa fa-search w3-text-blue' style='font-size:25px'></i></button>
+          
+
+        </form>
+
+         <br><br>
+
+
+
+
+
+          {% if userpost %}
+            {% for post in userpost %}
+          
+            <div class='{{post.color}} w3-leftbar w3-rightbar w3-topbar w3-bottombar w3-text-gray w3-justify w3-padding w3-round-large'>
+              <div style="font-size: 25px"><b>{{post.title}}</b></div>
+              <div style="font-size: 10px"><i>{{post.tag}}</i></div>
+              <i class="w3-text-gray" style="font-size: 10px">Posted by : {{post.user_data.fullname}}</i>
+              <i class="w3-text-gray" style="font-size: 10px">, Contact : {{post.user_data.user.email}}</i>
+              <div style="font-size: 10px"><i>Posted at : {{post.date_created}}</i></div>
+              {% if post.url %}
+                <div style="font-size: 10px"><i>Visit at : <a href="{{post.url}}">{{post.url}}</a></i></div>
+              {% endif %}
+              
+
+ 
+              
+              <br><br>
+              <div><b style="font-size: 20px">Description</b></div><div class="w3-text-gray" style="font-size: 14px">{{post.description}}</div>
+              
+            </div>
+
+            <br><br>
+
+            {% endfor %}
+
+          {% else %}
+
+            <br><h4 class="w3-text-gray">Not available!</h4><br>
+
+          {% endif %}
+
+
+
+
+
+
+        </center>
+
+
+ </div>
+<!-- End Page Content -->
+</div>
+
+{% endblock %}

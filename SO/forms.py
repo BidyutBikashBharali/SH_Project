@@ -10,8 +10,6 @@ class UserForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ['username', 'email', 'password1', 'password2']
-		
-
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -21,8 +19,8 @@ class UserForm(UserCreationForm):
 		self.fields['password2'].widget.attrs.update({ 'name':'password2', 'style':'width:75%;', 'class':'w3-input', 'placeholder':'Set A Password'})
 		
 
-class UserDataForm(ModelForm):
 
+class UserDataForm(ModelForm):
 	class Meta:
 		model = UserData
 		fields = '__all__'
@@ -40,7 +38,7 @@ class UserPostForm(ModelForm):
 	class Meta:
 		model = UserPost
 		fields = '__all__'
-		exclude = ['date_created', 'user']
+		exclude = ['date_created', 'user_data', 'color']
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)

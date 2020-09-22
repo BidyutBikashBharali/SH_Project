@@ -41,27 +41,40 @@
                   
                 {% else %}
 
-                  <h2 class="w3-text-red">No record found!</h2>
+                  <h2 class="w3-text-red">No user data!</h2>
+                  <a href="{% url 'SUD' %}"><button class="w3-btn w3-light-gray w3-round-large w3-tiny w3-center">Set User Data</button></a><br>
 
                 {% endif %}
              
                 {% if userpost %}
+                  {% for post in userpost %}
+                  <li class="w3-text-gray w3-justify">
 
-                  <li class="w3-text-blue w3-justify">
-
-                    {% for post in userpost %}
-
-                      <b class="w3-text-gray w3-right" style="font-size: 12px">Python-Internship</b>
-                      <b class="w3-text-gray w3-left" style="font-size: 12px">Posted at :</b><i class="w3-text-gray w3-left" style="font-size: 12px"> 2020-05-11, 08:45:05 AM</i><br>
-                      <h6><b>Title : </b> <i class="w3-text-gray" style="font-size: 14px"> {{post.title}} </i></h6>
+                      <b class="w3-text-gray w3-right" style="font-size: 12px">{{post.tag}}</b>
+                      <b class="w3-text-gray w3-left" style="font-size: 12px">Posted at :</b><i class="w3-text-gray w3-left" style="font-size: 12px"> {{post.date_created}} UTC</i><br>
+                      <div style="font-size: 25px"><b>{{post.title}}</b></div>
+                      {% if post.url %}
+                      <i class="w3-text-gray" style="font-size: 12px">Visit at : <a href="{{post.url}}">{{post.url}}</a> </i>
+                      {% endif %}
+                      <br><br><br>
+                      <div><b style="font-size: 20px">Description</b></div><div class="w3-text-gray" style="font-size: 14px"> {{post.description}} </div><br>
                       
-                      <h6><b>URL : </b> <i class="w3-text-gray" style="font-size: 14px"> </i></h6>
 
-                      <h6><b>Description : </b> <i class="w3-text-gray" style="font-size: 14px">  </i></h6>
 
-                    {% endfor %}
 
+                      <div class="w3-dropdown-hover w3-right w3-padding-small w3-white" >
+                        <div class="w3-text-blue"><i class='fas fa-ellipsis-h ' style='font-size:20px'></i></div>
+
+                        <div class="w3-dropdown-content w3-bar-block w3-card-2 w3-padding-tiny w3-zoom" style="right:0; bottom:18px">
+                        <a href=""><Button class="w3-button w3-hover-white w3-tiny w3-text-gray"><b>Edit</b></Button></a><br>
+                        <a href=""><Button class="w3-button w3-hover-white w3-tiny w3-text-gray"><b>Delete</b></Button></a>
+                        </div>
+                       </div><br>
+
+
+                       
                   </li>
+                  {% endfor %}
 
                 {% else %}
 

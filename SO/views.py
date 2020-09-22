@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
 from .models import UserData, UserPost
 from .forms import UserForm, UserDataForm, UserPostForm
+import random
 # Create your views here.
 
 def SI(request):
@@ -12,17 +13,15 @@ def SI(request):
 	if request.user.is_authenticated:
 		return redirect('Profile')
 
-
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('pass')
 		
 		user = authenticate(request, username=username, password=password)
-
 		if user is not None:
 			login(request, user)
 			messages.success(request, "Signed In Successfully:)") 
-			return redirect('SUD')
+			return redirect('SUD') 
 		else:
 			messages.error(request, "No such user with the submited credential exist!")
 			return redirect('SignIn')   
@@ -37,11 +36,11 @@ def SU(request):
 		form = UserForm(request.POST)
 		if form.is_valid():
 			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password1')
+			password = form.cleaned_data.get('password1') 
 
 			if User.objects.filter(username=username).exists():
 				messages.warning(request, "Username already exist! Try something unique.")
-				return redirect("SignUp")
+				return redirect("SignUp") 
 			form.save()
 			
 			user = authenticate(request, username=username, password=password)
@@ -50,6 +49,8 @@ def SU(request):
 
 			return redirect('SUD') 
 	return render(request, 'SU.html', {'form':form})
+
+
 
 
 def LO(request):
@@ -63,7 +64,6 @@ def SetUserData(request):
 	try:
 		if request.user.userdata.fullname is not None or request.user.userdata.address is not None:
 			return redirect('Profile')
-
 	except:
 		form = UserDataForm()
 		if request.method == 'POST':
@@ -77,13 +77,15 @@ def SetUserData(request):
 
 @login_required(login_url='SignIn')
 def Profile(request):
-	ud = request.user.userdata
 	try:
-		up = request.user.userpost
+		ud = request.user.userdata    
+		up = ud.userpost_set.all()
 		return render(request, 'Profile.html', {"userdata":ud, "userpost":up})
 	except:
+		ud = None
 		up = None
 		return render(request, 'Profile.html', {"userdata":ud, "userpost":up})
+
 
 
 @login_required(login_url='SignIn')
@@ -92,8 +94,26 @@ def Post(request):
 	if request.method == 'POST':
 		form = UserPostForm(request.POST)
 		if form.is_valid():
-		    up = UserPost(title=form.cleaned_data.get('title'), tag=form.cleaned_data.get('tag'), url=form.cleaned_data.get('url'), description=form.cleaned_data.get('description'), user=request.user)
+		    colors = ['w3-border-red', 'w3-border-pink', 'w3-border-purple', 'w3-border-deep-purple', 'w3-border-blue', 'w3-border-aqua', 'w3-border-teal', 'w3-border-lime', 'w3-border-yellow', 'w3-border-amber', 'w3-border-orange', 'w3-border-brown', 'w3-border-gray', 'w3-border-black']
+		    color = random.choice(colors)
+		    up = UserPost(title=form.cleaned_data.get('title'), tag=form.cleaned_data.get('tag'), url=form.cleaned_data.get('url'), description=form.cleaned_data.get('description'), color=color, user_data=request.user.userdata)
 		    up.save()
 		    return redirect('Profile')
 
 	return render(request, 'Post.html', {"form":form})
+
+
+
+
+@login_required(login_url='SignIn')
+def SearchFeed(request):
+	if request.method == 'POST':
+		tag = request.POST.get('tag')
+		up = UserPost.objects.filter(tag=tag)
+		return render(request, 'Feed.html', {"userpost":up})
+
+	up = UserPost.objects.all()
+	return render(request, 'Feed.html', {"userpost":up})
+
+
+
